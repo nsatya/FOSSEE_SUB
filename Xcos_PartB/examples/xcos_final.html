@@ -1,0 +1,396 @@
+
+<html>
+<head>
+	<title>User object example for mxGraph</title>
+
+	
+	<script type="text/javascript">
+		mxBasePath = '../src';
+	</script>
+
+	
+	<script type="text/javascript" src="../src/js/mxClient.js"></script>
+
+
+	<script type="text/javascript">
+		
+		function main(container)
+		{
+			
+			if (!mxClient.isBrowserSupported())
+			{
+				
+				mxUtils.error('Browser is not supported!', 200, false);
+			}
+			else
+			{
+				
+				var doc = mxUtils.createXmlDocument();
+
+				var p1 = doc.createElement('nodes');
+				p1.setAttribute('noofcurves', '1');
+				p1.setAttribute('color', '1 2 3 45');
+				p1.setAttribute('marksize', '1 1 1 1');
+				p1.setAttribute('outputWindow', '45');
+				p1.setAttribute('xmin', '67');
+				p1.setAttribute('ymin', '34');
+				p1.setAttribute('zmin', '867');
+				p1.setAttribute('alpha', '1 2 3 45');
+				p1.setAttribute('buffer', '1 2 3 45');
+				
+				var p2 = doc.createElement('nodes');
+				p2.setAttribute('noofcurves', '1');
+				p2.setAttribute('color', '1 2 3 45');
+				p2.setAttribute('marksize', '1 1 1 1');
+				p2.setAttribute('outputWindow', '-1 ');
+				p2.setAttribute('xmin', '');
+				p2.setAttribute('ymin', '');
+				p2.setAttribute('zmin', '50');
+				p2.setAttribute('alpha', '500');
+				p2.setAttribute('buffer', '2');
+				
+				var p3 = doc.createElement('nodes');
+				p3.setAttribute('noofcurves', '1');
+				p3.setAttribute('color', '1 2 3 45');
+				p3.setAttribute('marksize', '1 1 1 1');
+				p3.setAttribute('outputWindow', '-1');
+				p3.setAttribute('xmin', '');
+				p3.setAttribute('ymin', '');
+				p3.setAttribute('zmin', '');
+				p3.setAttribute('alpha', '');
+				p3.setAttribute('buffer', '500');
+				var p4 = doc.createElement('nodes');
+				p4.setAttribute('noofcurves', '1');
+				p4.setAttribute('color', '1 2 3 45');
+				p4.setAttribute('marksize', '1 1 1 1');
+				p4.setAttribute('outputWindow', '-1');
+				p4.setAttribute('xmin', '');
+				p4.setAttribute('ymin', '');
+				p4.setAttribute('zmin', '');
+				p4.setAttribute('alpha', '');
+				p4.setAttribute('buffer', '');
+				
+				var p5 = doc.createElement('nodes');
+				p5.setAttribute('noofcurves', '1');
+				p5.setAttribute('color', '1 2 3 45');
+				p5.setAttribute('marksize', '1 1 1 1');
+				p5.setAttribute('outputWindow', '-1');
+				p5.setAttribute('xmin', '');
+				p5.setAttribute('ymin', '');
+				p5.setAttribute('zmin', '');
+				p5.setAttribute('alpha', '890');
+				p5.setAttribute('buffer', '');
+
+				
+				var graph = new mxGraph(container);
+
+				
+				graph.setCellsResizable(false);
+				
+				
+				graph.setResizeContainer(true);
+				graph.minimumContainerSize = new mxRectangle(0, 0, 500, 380);
+				graph.setBorder(60);
+				
+			
+				new mxKeyHandler(graph);
+
+				
+				graph.isCellEditable = function(cell)
+				{
+					return !this.getModel().isEdge(cell);
+				};
+				
+				
+				graph.convertValueToString = function(cell)
+				{
+					if (mxUtils.isNode(cell.value))
+					{
+						if (cell.value.nodeName.toLowerCase() == 'nodes')
+						{
+							var noofcurves = cell.getAttribute('noofcurves', '');
+							var color = cell.getAttribute('color', '');
+							var marksize = cell.getAttribute('marksize', '');
+							var outputWindow = cell.getAttribute('outputWindow', '');
+							var xmin = cell.getAttribute('xmin', '');
+							var marksize = cell.getAttribute('ymin', '');
+							var marksize = cell.getAttribute('zmin', '');
+							var marksize = cell.getAttribute('alpha', '');
+							var marksize = cell.getAttribute('buffer', '');
+							
+
+						
+						}
+					
+
+					}
+
+					return '';
+				};
+
+				
+				var cellLabelChanged = graph.cellLabelChanged;
+				graph.cellLabelChanged = function(cell, newValue, autoSize)
+				{
+					if (mxUtils.isNode(cell.value) &&
+						cell.value.nodeName.toLowerCase() == 'nodes')
+					{
+						var pos = newValue.indexOf(' ');
+
+						var noofcurves = (pos > 0) ? newValue.substring(0,
+								pos) : newValue;
+						var color = (pos > 0) ? newValue.substring(
+								pos + 1, newValue.length) : '';
+						var outputWindow = (pos > 0) ? newValue.substring(
+								pos + 1, newValue.length) : '';
+						var marksize = (pos > 0) ? newValue.substring(
+								pos + 1, newValue.length) : '';
+						var xmin = (pos > 0) ? newValue.substring(
+								pos + 1, newValue.length) : '';
+						var ymin = (pos > 0) ? newValue.substring(
+								pos + 1, newValue.length) : '';
+						var zmin = (pos > 0) ? newValue.substring(
+								pos + 1, newValue.length) : '';
+						var alpha = (pos > 0) ? newValue.substring(
+								pos + 1, newValue.length) : '';
+						var buffer = (pos > 0) ? newValue.substring(
+								pos + 1, newValue.length) : '';
+
+						
+						var elt = cell.value.cloneNode(true);
+
+						elt.setAttribute('noofcurves', noofcurves);
+						elt.setAttribute('color', color);
+						elt.setAttribute('outputWindow', outputWindow);
+						elt.setAttribute('marksize', marksize);
+						elt.setAttribute('xmin', xmin);
+						elt.setAttribute('ymin', ymin);
+						elt.setAttribute('zmin', zmin);
+						elt.setAttribute('alpha', alpha);
+						elt.setAttribute('buffer', buffer);
+						
+
+						newValue = elt;
+						autoSize = true;
+					}
+					
+					cellLabelChanged.apply(this, arguments);
+				};
+
+				
+				var getEditingValue = graph.getEditingValue;
+				graph.getEditingValue = function(cell)
+				{
+					if (mxUtils.isNode(cell.value) &&
+						cell.value.nodeName.toLowerCase() == 'nodes')
+					{
+						var noofcurves = cell.getAttribute('noofcurves', '');
+						var color = cell.getAttribute('color', '');
+						var marksize = cell.getAttribute('marksize', '');
+						var outputWindow = cell.getAttribute('outputWindow', '');
+						var xmin = cell.getAttribute('xmin', '');
+						var ymin = cell.getAttribute('ymin', '');
+						var zmin = cell.getAttribute('zmin', '');
+						var alpha = cell.getAttribute('alpha', '');
+						var buffer = cell.getAttribute('buffer', '');
+						
+
+						return noofcurves + ' ' + color+ ' '+marksize+ ' '+outputWindow+ ' '+xmin+ ' '+ymin+ ' '+zmin+ ' '+alpha+ ' '+buffer;
+					}
+				};
+
+				
+				graph.setTooltips(true);
+				
+				var getTooltipForCell = graph.getTooltipForCell;
+				graph.getTooltipForCell = function(cell)
+				{
+					
+					if (graph.getModel().isEdge(cell))
+					{
+						var src = this.getLabel(this.getModel().getTerminal(cell, true));
+						var trg = this.getLabel(this.getModel().getTerminal(cell, false));
+
+						return src + ' ' + cell.value.nodeName + ' ' +  trg;
+					}
+
+					return getTooltipForCell.apply(this, arguments);
+				};
+				
+				
+				new mxRubberband(graph);
+
+			
+				var style = graph.getStylesheet().getDefaultVertexStyle();
+				style[mxConstants.STYLE_STROKECOLOR] = 'gray';
+				style[mxConstants.STYLE_ROUNDED] = true;
+				style[mxConstants.STYLE_SHADOW] = true;
+				style[mxConstants.STYLE_FILLCOLOR] = '#DFDFDF';
+				style[mxConstants.STYLE_GRADIENTCOLOR] = 'white';
+				style[mxConstants.STYLE_FONTCOLOR] = 'black';
+				style[mxConstants.STYLE_FONTSIZE] = '12';
+				style[mxConstants.STYLE_SPACING] = 4;
+		
+				
+				style = graph.getStylesheet().getDefaultEdgeStyle();
+				style[mxConstants.STYLE_STROKECOLOR] = '#0C0C0C';
+				style[mxConstants.STYLE_LABEL_BACKGROUNDCOLOR] = 'white';
+				style[mxConstants.STYLE_EDGE] = mxEdgeStyle.ElbowConnector;
+				style[mxConstants.STYLE_ROUNDED] = true;
+				style[mxConstants.STYLE_FONTCOLOR] = 'black';
+				style[mxConstants.STYLE_FONTSIZE] = '10';
+				
+				
+				var parent = graph.getDefaultParent();
+								
+			
+				graph.getModel().beginUpdate();
+				try
+				{
+					
+				 var v1 = graph.insertVertex(parent, null, p1,430, 400, 100,80,"shape=image;image=SINBLK_f.png;verticalLabelPosition=top;fontStyle=1;verticalAlign=bottom;");
+                    var v2 = graph.insertVertex(parent, null, p2, 430, 200, 100, 130,"shape=image;image=COSBLK_f.png;verticalLabelPosition=top;fontStyle=1;verticalAlign=bottom");
+                    var v4 = graph.insertVertex(parent, null, p3, 750, 10, 100, 130,"shape=image;image=CLOCK_c.png;fontStyle=1;labelPosition=top;align=left");
+                    
+                    var v8 = graph.insertVertex(parent, null, p4, 750, 170, 100, 200,"shape=image;image=CANIMXY3D.png;");
+                    var v5 = graph.insertVertex(parent, null, p5, 150, 200, 100, 130,"shape=image;image=TIME_f.png;verticalLabelPosition=top;verticalAlign=bottom");
+		    
+			var v6 = graph.insertVertex(parent, null, '', 320, 260, 10, 10,"");
+		    var t1 = graph.insertVertex(parent, null, '', 325, 440, 1, 1,"");
+		    var v9 = graph.insertVertex(parent, null, '', 620, 260, 10, 10,"");
+	  	    var v10 = graph.insertVertex(parent, null, '', 625, 305, 1, 1,"");
+		    var v11 = graph.insertVertex(parent, null, '', 757, 255, 1, 1,"");
+		    var v12 = graph.insertVertex(parent, null, '', 757, 305, 1, 1,"");
+		    var v13 = graph.insertVertex(parent, null, '', 757, 277, 1, 1,"");
+	  	    var v14 = graph.insertVertex(parent, null, '', 800, 240, 1, 1,"");
+	  	    var v15 = graph.insertVertex(parent, null, '', 700, 277, 1, 1,"");
+                    var e1 = graph.insertEdge(parent, null, '', v5, v2);
+                    var e2 = graph.insertEdge(parent, null, 'A', v6, t1,'perimeterSpacing=-15;labelBackgroundColor=white;fontColor=#FF0000;fontStyle=1;verticalAlign=top;edgeStyle=elbowEdgeStyle;elbow=horizontal;');
+                    var e3 = graph.insertEdge(parent, null, '', t1, v1);
+                    var e4 = graph.insertEdge(parent, null, '', v2, v11);
+		    var e5 = graph.insertEdge(parent, null, '', v9, v10);
+ 
+   var e6 = graph.insertEdge(parent, null, 'B', v10, v12,'perimeterSpacing=-15;labelBackgroundColor=white;fontColor=#FF0000;fontStyle=1;verticalAlign=top;edgeStyle=elbowEdgeStyle;elbow=horizontal;');
+		    var e7 = graph.insertEdge(parent, null, '', v1, v15);
+		    var e8 = graph.insertEdge(parent, null, '', v15, v13); 
+		    var e9 = graph.insertEdge(parent, null, '', v4, v14,"strokeColor=red;");}
+				finally
+				{
+					
+					graph.getModel().endUpdate();
+				}
+
+				
+				graph.getSelectionModel().addListener(mxEvent.CHANGE, function(sender, evt)
+				{
+					selectionChanged(graph);
+				});
+
+				selectionChanged(graph);
+			}
+
+			
+			function selectionChanged(graph)
+			{
+				var div = document.getElementById('properties');
+
+				
+				graph.container.focus();
+
+			
+				div.innerHTML = '';
+
+				
+				var cell = graph.getSelectionCell();
+
+				if (cell == null)
+				{
+					mxUtils.writeln(div, 'Nothing selected.');
+				}
+				else
+				{
+					
+					var center = document.createElement('center');
+					mxUtils.writeln(center, cell.value.nodeName + ' (' + cell.id + ')');
+					div.appendChild(center);
+					mxUtils.br(div);
+					
+
+					// Creates the form from the attributes of the user object
+					var form = new mxForm();
+	
+					var attrs = cell.value.attributes;
+					
+					for (var i = 0; i < attrs.length; i++)
+					{
+						createTextField(graph, form, cell, attrs[i]);
+					}
+	
+					div.appendChild(form.getTable());
+					mxUtils.br(div);
+					div.appendChild(mxUtils.button('OK', function()
+				{
+					
+				}));
+				div.appendChild(mxUtils.button('Cancel', function()
+				{
+					
+				}));
+				}
+			}
+
+			
+			function createTextField(graph, form, cell, attribute)
+			{
+				var input = form.addText(attribute.nodeName + ':', attribute.nodeValue);
+
+				var applyHandler = function()
+				{
+					var newValue = input.value || '';
+					var oldValue = cell.getAttribute(attribute.nodeName, '');
+
+					if (newValue != oldValue)
+					{
+						graph.getModel().beginUpdate();
+                        
+                        try
+                        {
+                        	var edit = new mxCellAttributeChange(
+ 		                           cell, attribute.nodeName,
+ 		                           newValue);
+                           	graph.getModel().execute(edit);
+                           	graph.updateCellSize(cell);
+                        }
+                        finally
+                        {
+                            graph.getModel().endUpdate();
+                        }
+					}
+				}; 
+
+		
+
+				
+			}
+		};
+	</script>
+</head>
+
+<!-- Page passes the container for the graph to the program -->
+<body onload="main(document.getElementById('graphContainer'))">
+	<table style="position:relative;">
+	<tr>
+		<td>
+			<div id="graphContainer"
+				style="border: solid 1px black;width:321px;height:241px;cursor:default;background:url('dot.jpg');">
+			</div>
+		</td>
+		<td valign="top">
+			<div id="properties"
+				style="border: solid 1px black; padding: 10px;">
+			</div>
+		</td>
+	</tr>
+	</table>
+</body>
+</html>
